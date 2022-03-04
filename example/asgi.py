@@ -11,10 +11,10 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-from .celery import app
+# from .celery import app
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'example.settings')
-app.set_default()
+# app.set_default()
 
 application = get_asgi_application()
