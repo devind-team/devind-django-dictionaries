@@ -139,9 +139,9 @@ GRAPHENE = {
 }
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Настройки Celery
-CELERY_BROKER_URL = os.getenv('BROKER_URL')
-CELERY_RESULT_BACKEND = os.getenv('BROKER_BACKEND')
+# Celery settings
+CELERY_BROKER_URL = os.getenv('BROKER_URL', 'redis://redis:6379')
+CELERY_RESULT_BACKEND = os.getenv('BROKER_BACKEND', 'redis://redis:6379')
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
