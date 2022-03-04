@@ -6,4 +6,4 @@ List of models:
 - Organizations
 """
 
-__version__: str = '0.0.1'
+__version__: str = '0.1.0'
