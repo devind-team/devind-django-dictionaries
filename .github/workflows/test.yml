@@ -1,11 +1,9 @@
-name: Test
+name: Release
 
 on:
   push:
-    branches-ignore:
+    branches:
       - main
-  pull_request:
-
 jobs:
   lint:
     name: Lint
@@ -23,13 +21,24 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install
-      - name: Flake Lint
+      - name: Flake
         run: |
           poetry run flake8 devind_dictionaries
   test:
     name: Test
     needs: [ lint ]
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      BROKER_URL: 'redis://redis:6379'
+      BROKER_BACKEND: 'redis://redis:6379'
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -46,24 +55,3 @@ jobs:
       - name: Test with Python
         run: |
           poetry run python manage.py test --timing
-  coverage:
-    name: Coverage
-    needs: [ test ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.7
-      - name: Setup Poetry
-        uses: Gr1N/setup-poetry@v7
-      - name: Install dependencies
-        run: poetry install
-      - name: Coverage
-        run: poetry run coverage run manage.py test
-      - name: Coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: poetry run coveralls
