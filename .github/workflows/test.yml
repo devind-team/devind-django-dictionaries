@@ -2,8 +2,10 @@ name: Release
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
+  pull_request:
+
 jobs:
   lint:
     name: Lint
