@@ -44,8 +44,8 @@ def parse_organizations(content: str) -> Tuple[Dict, Dict, Dict]:
                 org_fields[settings.ORGANIZATIONS_MAPPER[attribute]] = value
             else:
                 org_attributes[attribute] = value
-        if org_fields['parent_id'] == org_id:
-            org_fields.pop('parent_id')
+        if convert_str_to_int(org_fields['parent_id']) == org_id:
+            del org_fields['parent_id']
         organizations[org_id] = {
             **org_fields,
             'attributes': org_attributes
