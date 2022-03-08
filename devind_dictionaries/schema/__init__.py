@@ -13,12 +13,15 @@ from graphene_django_filter import AdvancedDjangoFilterConnectionField
 from graphql import ResolveInfo
 
 from .mutations import UpdateOrganizations
-from .types import DistrictType, OrganizationType, RegionType
-from ..models import District, Organization, Region
+from .types import DepartmentType, DistrictType, OrganizationType, RegionType
+from ..models import Department, District, Organization, Region
 
 
 class Query(graphene.ObjectType):
     """List of queries for dictionaries."""
+
+    department = graphene.Field(DepartmentType, department_id=graphene.Int(required=True, description='Department ID'))
+    departments = DjangoListField(DepartmentType)
 
     district = graphene.Field(DistrictType, district_id=graphene.Int(required=True, description='District ID'))
     districts = DjangoListField(DistrictType)
@@ -33,18 +36,22 @@ class Query(graphene.ObjectType):
     organizations = AdvancedDjangoFilterConnectionField(OrganizationType)
 
     @staticmethod
+    def resolve_department(root: Any, info: ResolveInfo, department_id: int) -> Department:
+        """Resolve function for get department entity."""
+
+    @staticmethod
     def resolve_district(root: Any, info: ResolveInfo, district_id: int) -> District:
-        """Resolve get district entity."""
+        """Resolve function for get district entity."""
         return get_object_or_404(District, pk=district_id)
 
     @staticmethod
     def resolve_region(root: Any, info: ResolveInfo, region_id: int) -> Region:
-        """Resolve get region entity."""
+        """Resolve function for get region entity."""
         return get_object_or_404(Region, pk=region_id)
 
     @staticmethod
     def resolve_organization(root: Any, info: ResolveInfo, organization_id: int) -> Organization:
-        """Resolve get organizations entiry."""
+        """Resolve function for get organizations entity."""
         return get_object_or_404(Organization, pk=organization_id)
 
 

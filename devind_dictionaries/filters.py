@@ -42,7 +42,8 @@ class OrganizationFilter(AdvancedFilterSet):
 
         model = Organization
         fields = {
-            'id': ('exact', 'icontains'),
+            'id': ('exact', 'in',),
+            'parent': ('exact', 'isnull'),
             'name': ('exact', 'icontains',),
             'inn': ('exact', 'icontains',),
             'kpp': ('exact', 'icontains',),
@@ -54,5 +55,6 @@ class OrganizationFilter(AdvancedFilterSet):
             'site': ('exact', 'icontains',),
             'mail': ('exact', 'icontains',),
             'address': ('exact', 'icontains',),
-            'region': ('exact',)
+            'region': ('exact', 'in',),
+            'department': ('exact', 'in',)
         }
