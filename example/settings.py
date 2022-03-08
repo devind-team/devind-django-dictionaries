@@ -149,5 +149,4 @@ CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_ENABLE_UTC = True
 CELERY_RESULT_EXPIRES = None
 
-
-
+DEVIND_CORE_USER_TYPE = 'example.schema.UserType'

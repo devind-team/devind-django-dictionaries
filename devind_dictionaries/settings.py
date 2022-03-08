@@ -4,6 +4,10 @@ from typing import Dict, Optional
 
 from django.conf import settings
 
+USER_TYPE: str = getattr(settings, 'DEVIND_CORE_USER_TYPE', None)
+
+assert USER_TYPE, 'UserType is not set: settings.DEVIND_CORE_USER_TYPE'
+
 ORGANIZATIONS_LINK: str = getattr(
     settings,
     'DEVIND_DICTIONARIES_ORGANIZATIONS_LINK',
@@ -28,6 +32,7 @@ ORGANIZATIONS_MAPPER: Dict[str, str] = {
 }
 
 DEFAULTS = {
+    'USER_TYPE': USER_TYPE,
     'ORGANIZATIONS_LINK': ORGANIZATIONS_LINK,
     'ORGANIZATIONS_MAPPER': ORGANIZATIONS_MAPPER
 }

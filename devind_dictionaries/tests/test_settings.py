@@ -11,3 +11,4 @@ class TestSettings(TestCase):
     def test_field_exists(self) -> None:
         """Testing exist url value."""
         self.assertIsNotNone(dictionaries_settings.ORGANIZATIONS_LINK)
+        self.assertIsNotNone(dictionaries_settings.USER_TYPE)
