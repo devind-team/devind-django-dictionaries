@@ -137,7 +137,8 @@ GRAPHENE = {
         'graphene_django.debug.DjangoDebugMiddleware'
     ]
 }
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Celery settings
 CELERY_BROKER_URL = os.getenv('BROKER_URL', 'redis://localhost:6379')
