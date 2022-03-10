@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2022-03-10)
+### Fix
+* Исправлены миграции ([`c1413b5`](https://github.com/devind-team/devind-django-dictionaries/commit/c1413b53d3312b3cc14ae9d723f4ec942867c2ec))
+
 ## v0.2.0 (2022-03-08)
 ### Feature
 * Add tests ([`e733535`](https://github.com/devind-team/devind-django-dictionaries/commit/e7335356d7e9e6276c61d104876ae0dcc47e3df7))
