@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.2 (2022-04-04)
+### Fix
+* Исправлены проблемы с линтером с типом Any ([`a40ac0f`](https://github.com/devind-team/devind-django-dictionaries/commit/a40ac0f90b6f41037132a169d09b060660ca3199))
+
 ## v0.2.1 (2022-03-10)
 ### Fix
 * Исправлены миграции ([`c1413b5`](https://github.com/devind-team/devind-django-dictionaries/commit/c1413b53d3312b3cc14ae9d723f4ec942867c2ec))
