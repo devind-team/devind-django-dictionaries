@@ -22,7 +22,7 @@ graphene-django = "^2.15.0"
 requests = "^2.27.1"
 beautifulsoup4 = "^4.10.0"
 celery = "^5.2.3"
-devind-helpers = "^0.3.0"
+devind-helpers = "^0"
 graphene-django-filter = "^0.6.2"
 
 [tool.poetry.dev-dependencies]
