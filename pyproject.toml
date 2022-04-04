@@ -21,9 +21,9 @@ Django = ">=3.2.12,<5.0.0"
 graphene-django = "^2.15.0"
 requests = "^2.27.1"
 beautifulsoup4 = "^4.10.0"
-celery = "^5.2.3"
+celery = "^5.2.5"
 devind-helpers = "^0"
-graphene-django-filter = "^0.6.2"
+graphene-django-filter = "^0.6.4"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
