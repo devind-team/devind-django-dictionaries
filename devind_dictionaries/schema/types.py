@@ -8,7 +8,6 @@ from graphene_django import DjangoObjectType
 from graphene_django_optimizer import resolver_hints
 from graphql import ResolveInfo
 
-from ..filters import DistrictFilter, OrganizationFilter, RegionFilter
 from ..models import Department, District, Organization, Region
 from ..settings import dictionaries_settings
 
@@ -59,7 +58,9 @@ class DistrictType(DjangoObjectType):
 
         model = District
         fields = ('id', 'name', 'created_at', 'updated_at', 'regions',)
-        filterset_class = DistrictFilter
+        filter_fields = {
+            'name': ('contains',),
+        }
 
     @staticmethod
     @resolver_hints(model_field='region_set')
@@ -76,7 +77,10 @@ class RegionType(DjangoObjectType):
 
         model = Region
         fields = ('id', 'name', 'common_id', 'created_at', 'updated_at', 'district',)
-        filterset_class = RegionFilter
+        filter_fields = {
+            'name': ('contains',),
+            'common_id': ('exact',)
+        }
 
 
 class OrganizationType(OptimizedDjangoObjectType):
@@ -100,7 +104,23 @@ class OrganizationType(OptimizedDjangoObjectType):
             'region',
             'departments'
         )
-        filterset_class = OrganizationFilter
+        filter_fields = {
+            'id': ('exact', 'in',),
+            'parent': ('exact', 'isnull'),
+            'name': ('exact', 'icontains',),
+            'inn': ('exact', 'icontains',),
+            'kpp': ('exact', 'icontains',),
+            'kind': ('exact', 'icontains',),
+            'rubpnubp': ('exact', 'icontains',),
+            'kodbuhg': ('exact', 'icontains',),
+            'okpo': ('exact', 'icontains',),
+            'phone': ('exact', 'icontains',),
+            'site': ('exact', 'icontains',),
+            'mail': ('exact', 'icontains',),
+            'address': ('exact', 'icontains',),
+            'region': ('exact', 'in',),
+            'department': ('exact', 'in',)
+        }
         connection_class = CountableConnection
 
     @staticmethod
