@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.3 (2022-04-06)
+### Fix
+* Внесены изменения для блокирования warnigns ([`09df53d`](https://github.com/devind-team/devind-django-dictionaries/commit/09df53de28e84a7037d95903d429bfd6b9a1dab2))
+
 ## v0.2.2 (2022-04-04)
 ### Fix
 * Исправлены проблемы с линтером с типом Any ([`a40ac0f`](https://github.com/devind-team/devind-django-dictionaries/commit/a40ac0f90b6f41037132a169d09b060660ca3199))
