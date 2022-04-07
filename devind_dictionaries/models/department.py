@@ -17,7 +17,7 @@ class Department(models.Model):
         settings.AUTH_USER_MODEL,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='user',
+        related_name='department',
         help_text='Director of department.'
     )
     minister = models.ForeignKey(
@@ -27,7 +27,11 @@ class Department(models.Model):
         related_name='minister',
         help_text='Responsible Minister.'
     )
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users', help_text='Users in departments.')
+    users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='departments',
+        help_text='Users in departments.'
+    )
     organizations = models.ManyToManyField('devind_dictionaries.Organization', help_text='Related organizations.')
 
     class Meta:
