@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.4 (2022-04-07)
+### Fix
+* Исправлен линтер ([`bf9e56c`](https://github.com/devind-team/devind-django-dictionaries/commit/bf9e56c054f4dc89f7c6c72bf9107c35626cba06))
+* Исправлены related_name ([`708ff9f`](https://github.com/devind-team/devind-django-dictionaries/commit/708ff9f34e803f399c4e3b15b951680c68cea9c7))
+
 ## v0.2.3 (2022-04-06)
 ### Fix
 * Внесены изменения для блокирования warnigns ([`09df53d`](https://github.com/devind-team/devind-django-dictionaries/commit/09df53de28e84a7037d95903d429bfd6b9a1dab2))
