@@ -27,7 +27,11 @@ class Department(models.Model):
         related_name='minister',
         help_text='Responsible Minister.'
     )
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='departments', help_text='Users in departments.')
+    users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='departments',
+        help_text='Users in departments.'
+    )
     organizations = models.ManyToManyField('devind_dictionaries.Organization', help_text='Related organizations.')
 
     class Meta:
