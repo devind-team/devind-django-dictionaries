@@ -17,7 +17,9 @@ class BudgetClassificationType(DjangoObjectType):
 
     class Meta:
         """Metaclass with description parameters."""
+
         model = BudgetClassification
+        interfaces = (graphene.relay.Node,)
         fields = (
             'id',
             'code',
@@ -28,6 +30,11 @@ class BudgetClassificationType(DjangoObjectType):
             'created_at',
             'updated_at',
         )
+        filter_fields = {
+            'id': ('exact', 'in',),
+            'code': ('exact', 'icontains',)
+        }
+        connection_class = CountableConnection
 
 
 class DepartmentType(DjangoObjectType):

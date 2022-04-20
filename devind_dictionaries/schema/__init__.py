@@ -8,11 +8,9 @@ from typing import Any, Iterable
 
 import graphene
 from devind_helpers.orm_utils import get_object_or_404
-from django.utils import timezone
 from graphene_django import DjangoListField
 from graphene_django_filter import AdvancedDjangoFilterConnectionField
 from graphql import ResolveInfo
-from django.db.models import Q
 
 from .mutations import UpdateOrganizations
 from .types import BudgetClassificationType, DepartmentType, DistrictType, OrganizationType, RegionType
@@ -22,8 +20,11 @@ from ..models import BudgetClassification, Department, District, Organization, R
 class Query(graphene.ObjectType):
     """List of queries for dictionaries."""
 
-    budget_classifications = DjangoListField(BudgetClassificationType)
-    active_budget_classification = DjangoListField(BudgetClassificationType)
+    budget_classifications = AdvancedDjangoFilterConnectionField(BudgetClassificationType)
+    active_budget_classification = AdvancedDjangoFilterConnectionField(
+        BudgetClassificationType,
+        filter_input_type_prefix='active'
+    )
 
     department = graphene.Field(DepartmentType, department_id=graphene.Int(required=True, description='Department ID'))
     departments = DjangoListField(DepartmentType)
@@ -42,10 +43,8 @@ class Query(graphene.ObjectType):
 
     @staticmethod
     def resolve_active_budget_classification(root: Any, info: ResolveInfo) -> Iterable[BudgetClassification]:
-        now = timezone.now()
-        return BudgetClassification.objects.filter(
-            Q(active=True, start__lt=now) & Q(Q(end__gt=now) | Q(end__isnull=True))
-        )
+        """Resolve active budget classification for now."""
+        return BudgetClassification.objects.active_now()
 
     @staticmethod
     def resolve_department(root: Any, info: ResolveInfo, department_id: int) -> Department:
