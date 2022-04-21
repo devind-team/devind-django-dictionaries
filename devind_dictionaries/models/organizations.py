@@ -1,5 +1,6 @@
 """Contains models dependence organizations."""
 
+from django.conf import settings
 from django.db import models
 
 from .districts import Region
@@ -31,6 +32,19 @@ class Organization(models.Model):
 
     parent = models.ForeignKey('self', null=True, default=None, on_delete=models.SET_NULL, help_text='Parent')
     region = models.ForeignKey(Region, null=True, default=None, on_delete=models.SET_NULL, help_text='Region')
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='organization',
+        help_text='Director of organization'
+    )
+    users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='organizations',
+        help_text='Users in organization'
+    )
 
     class Meta:
         """Metaclass for organizations."""
