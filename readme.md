@@ -13,3 +13,10 @@ pip install devind_dictionaries
 # poetry
 poetry add devind_dictionaries
 ```
+
+## Load budget classification codes
+
+Command
+```shell
+python manage.py load_budget_classification
+```

@@ -23,7 +23,7 @@ class Query(graphene.ObjectType):
     budget_classifications = AdvancedDjangoFilterConnectionField(BudgetClassificationType)
     active_budget_classification = AdvancedDjangoFilterConnectionField(
         BudgetClassificationType,
-        filter_input_type_prefix='active'
+        filter_input_type_prefix='ActiveBudgetClassification'
     )
 
     department = graphene.Field(DepartmentType, department_id=graphene.Int(required=True, description='Department ID'))

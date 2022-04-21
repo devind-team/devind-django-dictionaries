@@ -8,11 +8,11 @@ from ..managers import BudgetClassificationManager
 class BudgetClassification(models.Model):
     """Budget classification codes."""
 
-    code = models.CharField(max_length=40, help_text='Code')
+    code = models.CharField(max_length=40, unique=True, help_text='Code')
     name = models.CharField(max_length=1024, help_text='Name')
 
     active = models.BooleanField(default=True, help_text='Active')
-    start = models.DateTimeField(auto_created=True, help_text='Date of start activity')
+    start = models.DateTimeField(auto_now_add=True, help_text='Date of start activity')
     end = models.DateTimeField(null=True, help_text='Date of end activity')
 
     created_at = models.DateTimeField(auto_now_add=True, help_text='Created date')
