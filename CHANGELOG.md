@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.0 (2022-04-21)
+### Feature
+* Добавлены тесты ([`817fa05`](https://github.com/devind-team/devind-django-dictionaries/commit/817fa05406adc801e86449d231a86dab2c1d68b2))
+* Поправлены запросы ([`9040f17`](https://github.com/devind-team/devind-django-dictionaries/commit/9040f17ae7edc75dc68215dd1fda031ef2e223c7))
+* Добавлена модель и запросы ([`648e71b`](https://github.com/devind-team/devind-django-dictionaries/commit/648e71b1a8f6390b34dc4b6403daf149ebf11a6c))
+
 ## v0.2.4 (2022-04-07)
 ### Fix
 * Исправлен линтер ([`bf9e56c`](https://github.com/devind-team/devind-django-dictionaries/commit/bf9e56c054f4dc89f7c6c72bf9107c35626cba06))
