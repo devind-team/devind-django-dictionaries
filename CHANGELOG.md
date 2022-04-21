@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2022-04-21)
+### Feature
+* Добавлена привязка к пользователям в организации ([`4ce8aa9`](https://github.com/devind-team/devind-django-dictionaries/commit/4ce8aa9eeeb3e02e7c536acad9ebea183b510b3f))
+
 ## v0.3.0 (2022-04-21)
 ### Feature
 * Добавлены тесты ([`817fa05`](https://github.com/devind-team/devind-django-dictionaries/commit/817fa05406adc801e86449d231a86dab2c1d68b2))
