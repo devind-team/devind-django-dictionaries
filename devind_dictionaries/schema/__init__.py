@@ -4,7 +4,7 @@ Last change: Luferov
 Time: 2022-03-2
 """
 
-from typing import Any
+from typing import Any, Iterable
 
 import graphene
 from devind_helpers.orm_utils import get_object_or_404
@@ -13,12 +13,18 @@ from graphene_django_filter import AdvancedDjangoFilterConnectionField
 from graphql import ResolveInfo
 
 from .mutations import UpdateOrganizations
-from .types import DepartmentType, DistrictType, OrganizationType, RegionType
-from ..models import Department, District, Organization, Region
+from .types import BudgetClassificationType, DepartmentType, DistrictType, OrganizationType, RegionType
+from ..models import BudgetClassification, Department, District, Organization, Region
 
 
 class Query(graphene.ObjectType):
     """List of queries for dictionaries."""
+
+    budget_classifications = AdvancedDjangoFilterConnectionField(BudgetClassificationType)
+    active_budget_classification = AdvancedDjangoFilterConnectionField(
+        BudgetClassificationType,
+        filter_input_type_prefix='ActiveBudgetClassification'
+    )
 
     department = graphene.Field(DepartmentType, department_id=graphene.Int(required=True, description='Department ID'))
     departments = DjangoListField(DepartmentType)
@@ -34,6 +40,11 @@ class Query(graphene.ObjectType):
         organization_id=graphene.Int(required=True, description='Organization ID')
     )
     organizations = AdvancedDjangoFilterConnectionField(OrganizationType)
+
+    @staticmethod
+    def resolve_active_budget_classification(root: Any, info: ResolveInfo) -> Iterable[BudgetClassification]:
+        """Resolve active budget classification for now."""
+        return BudgetClassification.objects.active_now()
 
     @staticmethod
     def resolve_department(root: Any, info: ResolveInfo, department_id: int) -> Department:

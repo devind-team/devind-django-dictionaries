@@ -8,12 +8,37 @@ from graphene_django import DjangoObjectType
 from graphene_django_optimizer import resolver_hints
 from graphql import ResolveInfo
 
-from ..models import Department, District, Organization, Region
+from ..models import BudgetClassification, Department, District, Organization, Region
 from ..settings import dictionaries_settings
 
 
+class BudgetClassificationType(DjangoObjectType):
+    """Graphene object type for budget classification codes."""
+
+    class Meta:
+        """Metaclass with description parameters."""
+
+        model = BudgetClassification
+        interfaces = (graphene.relay.Node,)
+        fields = (
+            'id',
+            'code',
+            'name',
+            'active',
+            'start',
+            'end',
+            'created_at',
+            'updated_at',
+        )
+        filter_fields = {
+            'id': ('exact', 'in',),
+            'code': ('exact', 'icontains',)
+        }
+        connection_class = CountableConnection
+
+
 class DepartmentType(DjangoObjectType):
-    """Object type for Department."""
+    """Graphene object type for Department."""
 
     user = graphene.Field(dictionaries_settings.USER_TYPE, required=True, description='Director of department.')
     minister = graphene.Field(dictionaries_settings.USER_TYPE, required=True, description='Responsible Minister.')
@@ -49,7 +74,7 @@ class DepartmentType(DjangoObjectType):
 
 
 class DistrictType(DjangoObjectType):
-    """Object type for District."""
+    """Graphene object type for District."""
 
     regions = graphene.List(lambda: RegionType, description='List of regions.')
 
@@ -70,7 +95,7 @@ class DistrictType(DjangoObjectType):
 
 
 class RegionType(DjangoObjectType):
-    """Object type for Regions."""
+    """Graphene object type for Regions."""
 
     class Meta:
         """Metaclass with description parameters."""
