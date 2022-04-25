@@ -21,7 +21,7 @@ class Query(graphene.ObjectType):
     """List of queries for dictionaries."""
 
     budget_classifications = AdvancedDjangoFilterConnectionField(BudgetClassificationType)
-    active_budget_classification = AdvancedDjangoFilterConnectionField(
+    active_budget_classifications = AdvancedDjangoFilterConnectionField(
         BudgetClassificationType,
         filter_input_type_prefix='ActiveBudgetClassification'
     )
