@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.1 (2022-04-25)
+### Fix
+* Исправлена проблема с загрузкой КБК ([`fe9104f`](https://github.com/devind-team/devind-django-dictionaries/commit/fe9104fe8e4538b552730ebb14b1b1b822056cf4))
+
 ## v0.4.0 (2022-04-21)
 ### Feature
 * Добавлена привязка к пользователям в организации ([`4ce8aa9`](https://github.com/devind-team/devind-django-dictionaries/commit/4ce8aa9eeeb3e02e7c536acad9ebea183b510b3f))
