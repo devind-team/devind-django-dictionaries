@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.2 (2022-04-25)
+### Fix
+* Fix flake8 ([`561655c`](https://github.com/devind-team/devind-django-dictionaries/commit/561655c6c323dab05a749105905c170bd814aacf))
+* Fix test and resolver ([`0edf54c`](https://github.com/devind-team/devind-django-dictionaries/commit/0edf54c6a793d1de8b88da1c1b785193dea3ea2a))
+* Add `s` in end of active_budget_classifications ([`fd994bd`](https://github.com/devind-team/devind-django-dictionaries/commit/fd994bde0efb284297ee389928a0f7c55b3a41ed))
+
 ## v0.4.1 (2022-04-25)
 ### Fix
 * Исправлена проблема с загрузкой КБК ([`fe9104f`](https://github.com/devind-team/devind-django-dictionaries/commit/fe9104fe8e4538b552730ebb14b1b1b822056cf4))
