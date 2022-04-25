@@ -13,9 +13,9 @@ from graphene.test import Client
 COUNT_BUDGET_CLASSIFICATION_CODE = 378
 COUNT_CHANGE_CODES = 10
 
-ACTIVE_BUDGET_CLASSIFICATION = """
+ACTIVE_BUDGET_CLASSIFICATIONS = """
     query {
-      activeBudgetClassification {
+      activeBudgetClassifications {
         totalCount
         pageInfo {
           hasNextPage
@@ -76,9 +76,9 @@ class TestBudgetClassification(TestCase):
 
     def test_active_budget_classifications(self) -> None:
         """Testing active budget classifications."""
-        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATION)
+        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATIONS)
         self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['activeBudgetClassification']
+        budget_classification = find_budget_classification['data']['activeBudgetClassifications']
         self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE)
 
     def test_active_budget_classification(self) -> None:
@@ -87,9 +87,9 @@ class TestBudgetClassification(TestCase):
             .values_list('id', flat=True)[:COUNT_CHANGE_CODES]
         self.assertEqual(len(budget_classifications_ids), COUNT_CHANGE_CODES)
         BudgetClassification.objects.filter(pk__in=budget_classifications_ids).update(active=False)
-        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATION)
+        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATIONS)
         self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['activeBudgetClassification']
+        budget_classification = find_budget_classification['data']['activeBudgetClassifications']
         self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE - COUNT_CHANGE_CODES)
 
     def test_end_budget_classification_back(self) -> None:
@@ -99,9 +99,9 @@ class TestBudgetClassification(TestCase):
             .values_list('id', flat=True)[:COUNT_CHANGE_CODES]
         self.assertEqual(len(budget_classifications_ids), COUNT_CHANGE_CODES)
         BudgetClassification.objects.filter(pk__in=budget_classifications_ids).update(end=make_aware(end))
-        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATION)
+        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATIONS)
         self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['activeBudgetClassification']
+        budget_classification = find_budget_classification['data']['activeBudgetClassifications']
         self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE - COUNT_CHANGE_CODES)
 
     def tearDown(self) -> None:
