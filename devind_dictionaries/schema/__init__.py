@@ -42,7 +42,12 @@ class Query(graphene.ObjectType):
     organizations = AdvancedDjangoFilterConnectionField(OrganizationType)
 
     @staticmethod
-    def resolve_active_budget_classifications(root: Any, info: ResolveInfo, *args, **kwargs) -> Iterable[BudgetClassification]:
+    def resolve_active_budget_classifications(
+            root: Any,
+            info: ResolveInfo,
+            *args,
+            **kwargs
+    ) -> Iterable[BudgetClassification]:
         """Resolve active budget classification for now."""
         return BudgetClassification.objects.active_now()
 
