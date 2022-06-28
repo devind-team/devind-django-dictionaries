@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2022-06-28)
+### Feature
+* Обновление версии семантик релиза ([`93fb3cc`](https://github.com/devind-team/devind-django-dictionaries/commit/93fb3cc24548ea21c3915c88b8e0c6668e663700))
+
 ## v0.4.2 (2022-04-25)
 ### Fix
 * Fix flake8 ([`561655c`](https://github.com/devind-team/devind-django-dictionaries/commit/561655c6c323dab05a749105905c170bd814aacf))
