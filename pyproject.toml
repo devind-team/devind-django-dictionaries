@@ -13,8 +13,9 @@ beautifulsoup4 = "^4.11.1"
 celery = "^5.2.7"
 devind-helpers = "^1.0.0"
 python-dotenv = "^0.20.0"
-strawberry-graphql = {extras = ["debug-server"], version = "^0.114.6"}
 strawberry-graphql-django = "^0.3.1"
+strawberry-graphql = "^0.116.3"
+strawberry-django-plus = "^1.16.0"
 
 [tool.poetry.dev-dependencies]
 
