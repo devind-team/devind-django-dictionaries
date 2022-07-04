@@ -32,9 +32,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-FIXTURE_DIRS = [
-    os.path.join(BASE_DIR, 'devind_dictionaries', 'fixtures'),
-]
 
 # Application definition
 
@@ -44,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'devind_dictionaries',
 ]
 
 MIDDLEWARE = [

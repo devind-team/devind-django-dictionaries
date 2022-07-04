@@ -16,7 +16,7 @@ class BudgetClassification(models.Model):
     end = models.DateTimeField(null=True, help_text='Date of end activity')
 
     created_at = models.DateTimeField(auto_now_add=True, help_text='Created date')
-    updated_at = models.DateTimeField(auto_now=True, help_text='Updated date')
+    updated_at = models.DateTimeField(auto_now=True, null=True, help_text='Updated date')
 
     objects = BudgetClassificationManager()
 
