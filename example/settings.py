@@ -40,11 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'graphene_django',
-    'django_filters',
-    'graphene_django_filter',
-    'devind_dictionaries'
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -131,13 +127,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 # Настройки Graphene
-GRAPHENE = {
-    'SCHEMA': 'example.schema.schema',
-    'MIDDLEWARE': [
-        'graphene_django.debug.DjangoDebugMiddleware'
-    ]
-}
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Celery settings
