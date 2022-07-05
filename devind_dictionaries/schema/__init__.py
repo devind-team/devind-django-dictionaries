@@ -6,10 +6,10 @@ from .types import RegionType, \
     OrganizationType, \
     DepartmentType, \
     BudgetClassificationType, \
-    BudgetClassificationFilter, \
-    OrganizationInputPartial
+    BudgetClassificationFilter
 from typing import List, Optional
 from strawberry_django_plus import gql
+from .mutations import UpdateOrganizations
 
 
 @gql.type
@@ -62,9 +62,7 @@ class Query:
 
 
 @gql.type
-class Mutation:
+class Mutation(UpdateOrganizations):
     """List of mutations for dictionaries."""
-
-    update_artist: OrganizationType = gql.django.update_mutation(OrganizationInputPartial,
-                                                                 description='Update district, regions and organizations.')
+    pass
 

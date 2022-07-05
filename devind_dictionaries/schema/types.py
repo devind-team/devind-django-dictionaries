@@ -20,120 +20,146 @@ class BaseTimeStamps:
     updated_at: datetime.datetime
 
 
-@gql.django.type(BudgetClassification)
-class BudgetClassificationType(BaseTimeStamps):
-    """Type of Budget classification."""
-
-    id: auto
-    code: str
-    name: str
-
-    active: bool
-    start: datetime.datetime
-    end: datetime.datetime
-
-
 @gql.django.filter(BudgetClassification)
-class BudgetClassificationFilter(BaseTimeStamps):
+class BudgetClassificationFilter:
     """Filter of Budget classification."""
 
-    id: auto
-    code: str
-    name: str
-
-    active: bool
-    start: datetime.datetime
-    end: datetime.datetime
+    id: gql.ID
+    code: auto
 
 
-@gql.django.type(District)
-class DistrictType(BaseTimeStamps):
-    """Type of District."""
+@gql.django.type(BudgetClassification, filters=BudgetClassificationFilter)
+class BudgetClassificationType(BaseTimeStamps, gql.relay.Node):
+    """Type of Budget classification."""
 
-    id: auto
-    name: str
+    id: gql.ID
+    code: auto
+    name: auto
 
-
-@gql.django.type(Region)
-class RegionType(BaseTimeStamps):
-    """Type of Region."""
-
-    id: auto
-    name: str
-    common_id: int
-
-    district: DistrictType
-
-
-@gql.django.type(Organization)
-class OrganizationType(BaseTimeStamps):
-    """Type of Organization."""
-
-    id: auto
-    name: str
-    present_name: str
-
-    inn: Optional[str]
-    kpp: Optional[str]
-    kind: Optional[str]
-
-    rubpnubp: Optional[str]
-    kodbuhg: Optional[str]
-    okpo: Optional[str]
-
-    phone: Optional[str]
-    site: Optional[str]
-    mail: Optional[str]
-    address: Optional[str]
-
-    attributes: strawberry.scalars.JSON
-
-    parent: Optional['OrganizationType']
-    region: Optional[RegionType]
-
-    # user: 'UserType'
-    # users: list['UserType']
-
-
-@gql.django.partial(Organization)
-class OrganizationInputPartial(BaseTimeStamps, gql.NodeInput):
-    """Partial of Organization."""
-
-    id: auto
-    name: str
-    present_name: str
-
-    inn: Optional[str]
-    kpp: Optional[str]
-    kind: Optional[str]
-
-    rubpnubp: Optional[str]
-    kodbuhg: Optional[str]
-    okpo: Optional[str]
-
-    phone: Optional[str]
-    site: Optional[str]
-    mail: Optional[str]
-    address: Optional[str]
-
-    attributes: strawberry.scalars.JSON
-
-    parent: Optional['OrganizationType']
-    region: Optional[RegionType]
-
-    # user: 'UserType'
-    # users: list['UserType']
+    active: auto
+    start: auto
+    end: auto
 
 
 @gql.django.type(Department)
 class DepartmentType(BaseTimeStamps):
     """Type of Departments."""
 
-    id: auto
-    name: str
-    code: int
+    id: gql.ID
+    name: auto
+    code: auto
 
     # user: 'UserType'
     # users: list['UserType']
     # minister: 'UserType'
-    organizations: list['OrganizationType']
+
+    # @gql.django.field#(only=['users'])
+    # def users(self, root: Department) -> 'list[UserType]':
+    #     """Resolve function for users in Departments."""
+    #     return root.users.all()
+
+    @gql.django.field
+    def organizations(self, root: Department) -> 'list[OrganizationType]':
+        """Resolve function for organizations in Departments."""
+        return root.organizations.all()
+
+
+@gql.django.filter(District)
+class DistrictFilter:
+    """Filter of District."""
+
+    name: auto
+
+
+@gql.django.type(District, filters=DistrictFilter)
+class DistrictType(BaseTimeStamps):
+    """Type of District."""
+
+    id: gql.ID
+    name: auto
+
+    @gql.django.field#(only='region_set')
+    def regions(self, root: District) -> 'list[RegionType]':
+        """Resolve function for Regions in District."""
+        return root.region_set.all()
+
+
+@gql.django.filter(Region)
+class RegionFilter:
+    """Type of Region."""
+
+    name: auto
+    common_id: auto
+
+
+@gql.django.type(Region, filters=RegionFilter)
+class RegionType(BaseTimeStamps):
+    """Type of Region."""
+
+    id: gql.ID
+    name: auto
+    common_id: auto
+
+    district: DistrictType
+
+
+@gql.django.filter(Organization)
+class OrganizationFilter:
+    """Filter of Organization."""
+
+    name: auto
+    present_name: auto
+
+    inn: auto
+    kpp: auto
+    kind: auto
+
+    rubpnubp: auto
+    kodbuhg: auto
+    okpo: auto
+
+    phone: auto
+    site: auto
+    mail: auto
+    address: auto
+
+    # attributes: auto
+
+    parent: 'OrganizationFilter | None'
+    region: RegionFilter | None
+
+    # user: 'UserType'
+    # users: list['UserType']
+
+
+@gql.django.type(Organization, filters=OrganizationFilter)
+class OrganizationType(BaseTimeStamps, gql.relay.Node):
+    """Type of Organization."""
+
+    id: gql.ID
+    name: auto
+    present_name: auto
+
+    inn: auto
+    kpp: auto
+    kind: auto
+
+    rubpnubp: auto
+    kodbuhg: auto
+    okpo: auto
+
+    phone: auto
+    site: auto
+    mail: auto
+    address: auto
+
+    attributes: strawberry.scalars.JSON
+
+    parent: 'OrganizationType | None'
+    region: RegionType | None
+
+    # user: 'UserType'
+    # users: list['UserType']
+
+
+
