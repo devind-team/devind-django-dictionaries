@@ -1,22 +1,32 @@
 """Description for dictionaries schema."""
+from typing import Iterable
 
+from strawberry_django_plus import gql
+from strawberry_django_plus.permissions import HasPerm
 
+from ..services import get_active_budget_classification
+from .filters import BudgetClassificationFilter
 from .types import RegionType, \
     DistrictType, \
     OrganizationType, \
     DepartmentType, \
     BudgetClassificationType
-from .filters import BudgetClassificationFilter
-from strawberry_django_plus import gql
-from .mutations import UpdateOrganizations
+from ..tasks import update_organizations
 
 
 @gql.type
 class Query:
     """List of queries for dictionaries."""
 
-    budget_classifications: BudgetClassificationType = gql.django.field(filters=BudgetClassificationFilter)
-    active_budget_classifications: BudgetClassificationType = gql.django.field(filters=BudgetClassificationFilter)
+    budget_classifications: gql.relay.Connection[BudgetClassificationType] = gql.django.connection(
+        description='Доступные коды бюджетной классификации'
+    )
+
+    @gql.django.connection(
+        description='Активные коды бюджетной классификации'
+    )
+    def active_budget_classifications(self) -> Iterable[BudgetClassificationType]:
+        return get_active_budget_classification()
 
     department: DepartmentType = gql.django.field()
     departments: list[DepartmentType] = gql.django.field()
@@ -32,7 +42,16 @@ class Query:
 
 
 @gql.type
-class Mutation(UpdateOrganizations):
+class Mutation:
     """List of mutations for dictionaries."""
-    pass
+
+    @gql.mutation(directives=[
+        HasPerm('devind_dictionaries.change_district'),
+        HasPerm('devind_dictionaries.change_region'),
+        HasPerm('devind_dictionaries.change_organization'),
+    ])
+    def update_organization(self) -> bool:
+        """Start celery task."""
+        update_organizations.delay()
+        return True
 

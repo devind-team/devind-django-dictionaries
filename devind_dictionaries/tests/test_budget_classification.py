@@ -6,9 +6,7 @@ from devind_dictionaries.models import BudgetClassification
 from django.core.management import call_command
 from django.test import TestCase
 from django.utils.timezone import make_aware
-from example.schema import schema
-from graphene.test import Client
-
+from strawberry_django_plus.test.client import TestClient, Response
 
 COUNT_BUDGET_CLASSIFICATION_CODE = 378
 COUNT_CHANGE_CODES = 10
@@ -40,8 +38,8 @@ class TestBudgetClassification(TestCase):
 
     def setUp(self) -> None:
         """Setuping test settings."""
-        call_command('load_budget_classification')
-        self.client = Client(schema)
+        call_command('loaddata', 'budget_classification')
+        self.client = TestClient('/graphql/')
 
     def test_invoke_command(self) -> None:
         """Testing invoke command python manage.py load_budget_classification."""
@@ -50,36 +48,38 @@ class TestBudgetClassification(TestCase):
     def test_budget_classifications(self) -> None:
         """Test budget classification relay query."""
         query = """
-        query {
-          budgetClassifications {
-            totalCount
-            pageInfo {
-              hasNextPage
-              hasPreviousPage
-              startCursor
-              endCursor
-              __typename
-            }
-            edges {
-              node {
-                id
+          query {
+            budgetClassifications {
+              totalCount
+              pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
                 __typename
+              }
+              edges {
+                node {
+                  id
+                  __typename
+                }
               }
             }
           }
-        }
         """
-        find_budget_classification = self.client.execute(query)
-        self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['budgetClassifications']
+        response: Response = self.client.query(query)
+        self.assertIsNone(response.errors)
+        budget_classification: dict[str, str | dict] | None = response.data.get('budgetClassifications')
+        self.assertIsNotNone(budget_classification)
         self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE)
 
     def test_active_budget_classifications(self) -> None:
         """Testing active budget classifications."""
-        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATIONS)
-        self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['activeBudgetClassifications']
-        self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE)
+        response: Response = self.client.query(ACTIVE_BUDGET_CLASSIFICATIONS)
+        self.assertIsNone(response.errors)
+        budget_classifications: dict[str, str | dict] | None = response.data.get('activeBudgetClassifications')
+        self.assertIsNotNone(budget_classifications)
+        self.assertEqual(budget_classifications['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE)
 
     def test_active_budget_classification(self) -> None:
         """Testing active flag in budget classification."""
@@ -87,10 +87,11 @@ class TestBudgetClassification(TestCase):
             .values_list('id', flat=True)[:COUNT_CHANGE_CODES]
         self.assertEqual(len(budget_classifications_ids), COUNT_CHANGE_CODES)
         BudgetClassification.objects.filter(pk__in=budget_classifications_ids).update(active=False)
-        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATIONS)
-        self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['activeBudgetClassifications']
-        self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE - COUNT_CHANGE_CODES)
+        response: Response = self.client.query(ACTIVE_BUDGET_CLASSIFICATIONS)
+        self.assertIsNone(response.errors)
+        budget_classifications: dict[str, str | dict] | None = response.data.get('activeBudgetClassifications')
+        self.assertIsNotNone(budget_classifications)
+        self.assertEqual(budget_classifications['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE - COUNT_CHANGE_CODES)
 
     def test_end_budget_classification_back(self) -> None:
         """Testing end date in budget classification."""
@@ -99,9 +100,10 @@ class TestBudgetClassification(TestCase):
             .values_list('id', flat=True)[:COUNT_CHANGE_CODES]
         self.assertEqual(len(budget_classifications_ids), COUNT_CHANGE_CODES)
         BudgetClassification.objects.filter(pk__in=budget_classifications_ids).update(end=make_aware(end))
-        find_budget_classification = self.client.execute(ACTIVE_BUDGET_CLASSIFICATIONS)
-        self.assertIsNone(find_budget_classification.get('errors'))
-        budget_classification = find_budget_classification['data']['activeBudgetClassifications']
+        response: Response = self.client.query(ACTIVE_BUDGET_CLASSIFICATIONS)
+        self.assertIsNone(response.errors)
+        budget_classification: dict[str, str | dict] | None = response.data.get('activeBudgetClassifications')
+        self.assertIsNotNone(budget_classification)
         self.assertEqual(budget_classification['totalCount'], COUNT_BUDGET_CLASSIFICATION_CODE - COUNT_CHANGE_CODES)
 
     def tearDown(self) -> None:
