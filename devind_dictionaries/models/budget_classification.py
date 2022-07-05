@@ -2,8 +2,6 @@
 
 from django.db import models
 
-from ..managers import BudgetClassificationManager
-
 
 class BudgetClassification(models.Model):
     """Budget classification codes."""
@@ -17,8 +15,6 @@ class BudgetClassification(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, help_text='Created date')
     updated_at = models.DateTimeField(auto_now=True, null=True, help_text='Updated date')
-
-    objects = BudgetClassificationManager()
 
     class Meta:
         """Metaclass of budget classification codes."""

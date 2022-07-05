@@ -13,8 +13,8 @@ from devind_helpers.utils import convert_str_to_int
 from django.db import transaction
 from django.db.models import QuerySet
 
-from .models import District, Organization, Region
-from .settings import dictionaries_settings as settings
+from ..models import District, Organization, Region
+from ..settings import dictionaries_settings as settings
 
 
 def parse_organizations(content: str) -> Tuple[Dict, Dict, Dict]:
