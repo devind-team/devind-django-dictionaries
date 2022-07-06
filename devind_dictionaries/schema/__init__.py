@@ -4,13 +4,9 @@ from typing import Iterable
 from strawberry_django_plus import gql
 from strawberry_django_plus.permissions import HasPerm
 
-from ..services import get_active_budget_classification
 from .filters import BudgetClassificationFilter
-from .types import RegionType, \
-    DistrictType, \
-    OrganizationType, \
-    DepartmentType, \
-    BudgetClassificationType
+from .types import BudgetClassificationType, DepartmentType, DistrictType, OrganizationType, RegionType
+from ..services import get_active_budget_classification
 from ..tasks import update_organizations
 
 
@@ -26,6 +22,7 @@ class Query:
         description='Активные коды бюджетной классификации'
     )
     def active_budget_classifications(self) -> Iterable[BudgetClassificationType]:
+        """Get active budget classifications."""
         return get_active_budget_classification()
 
     department: DepartmentType = gql.django.field()
@@ -54,4 +51,3 @@ class Mutation:
         """Start celery task."""
         update_organizations.delay()
         return True
-

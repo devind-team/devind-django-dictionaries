@@ -1,9 +1,10 @@
+"""Describe dictionaries filter types."""
+
 from __future__ import annotations
 
+from devind_dictionaries.models import BudgetClassification, District, Organization, Region
 from strawberry import auto
 from strawberry_django_plus import gql
-
-from devind_dictionaries.models import BudgetClassification, District, Region, Organization
 
 
 @gql.django.filter(BudgetClassification)
@@ -35,24 +36,15 @@ class OrganizationFilter:
 
     name: auto
     present_name: auto
-
     inn: auto
     kpp: auto
     kind: auto
-
     rubpnubp: auto
     kodbuhg: auto
     okpo: auto
-
     phone: auto
     site: auto
     mail: auto
     address: auto
-
-    # attributes: auto
-
     parent: OrganizationFilter | None
     region: RegionFilter | None
-
-    # user: 'UserType'
-    # users: list['UserType']

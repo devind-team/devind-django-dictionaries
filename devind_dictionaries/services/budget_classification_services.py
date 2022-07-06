@@ -3,9 +3,9 @@
 import datetime
 from typing import Iterable
 
-from django.db.models import QuerySet, Q
-from django.utils import timezone
 from devind_dictionaries.models import BudgetClassification
+from django.db.models import Q, QuerySet
+from django.utils import timezone
 
 
 def get_active_budget_classification() -> Iterable[QuerySet[BudgetClassification] | BudgetClassification]:

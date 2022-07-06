@@ -3,24 +3,18 @@
 from __future__ import annotations
 
 import datetime
+
 import strawberry
+from devind_dictionaries.models import BudgetClassification, Department, District, Organization, Region
 from strawberry import auto
 from strawberry_django_plus import gql
-from devind_dictionaries.models import (
-    BudgetClassification,
-    Department,
-    District,
-    Region,
-    Organization
-)
 
-from .filters import BudgetClassificationFilter
-from .filters import DistrictFilter, RegionFilter, OrganizationFilter
-from ..settings import dictionaries_settings
+from .filters import BudgetClassificationFilter, DistrictFilter, OrganizationFilter, RegionFilter
 
 
 class BaseTimeStamps:
     """Base of timeStamps class."""
+
     created_at: datetime.datetime
     updated_at: datetime.datetime
 
@@ -32,7 +26,6 @@ class BudgetClassificationType(BaseTimeStamps, gql.relay.Node):
     id: gql.ID
     code: auto
     name: auto
-
     active: auto
     start: auto
     end: auto
@@ -45,12 +38,11 @@ class DepartmentType(BaseTimeStamps):
     id: gql.ID
     name: auto
     code: auto
-
-    # user: dictionaries_settings.USER_TYPE | None
-    # minister: dictionaries_settings.USER_TYPE | None
+    # user: UserType | None
+    # minister: UserType | None
     #
     # @gql.django.field  # (only=['users'])
-    # def users(self, root: Department) -> 'list[dictionaries_settings.USER_TYPE]':
+    # def users(self, root: Department) -> 'list[UserType]':
     #     """Resolve function for users in Departments."""
     #     return root.users.all()
 
@@ -80,7 +72,6 @@ class RegionType(BaseTimeStamps):
     id: gql.ID
     name: auto
     common_id: auto
-
     district: DistrictType | None
 
 
@@ -91,30 +82,22 @@ class OrganizationType(BaseTimeStamps, gql.relay.Node):
     id: gql.ID
     name: auto
     present_name: auto
-
     inn: auto
     kpp: auto
     kind: auto
-
     rubpnubp: auto
     kodbuhg: auto
     okpo: auto
-
     phone: auto
     site: auto
     mail: auto
     address: auto
-
     attributes: strawberry.scalars.JSON
-
     parent: 'OrganizationType | None'
     region: RegionType | None
-
-    # user: dictionaries_settings.USER_TYPE
+    # user: UserType
     #
     # @gql.django.field  # (only=['users'])
-    # def users(self, root: Organization) -> 'list[dictionaries_settings.USER_TYPE]':
+    # def users(self, root: Organization) -> 'list[UserType]':
     #     """Resolve function for users in Departments."""
     #     return root.users.all()
-
-

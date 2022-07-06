@@ -6,7 +6,8 @@ from devind_dictionaries.models import BudgetClassification
 from django.core.management import call_command
 from django.test import TestCase
 from django.utils.timezone import make_aware
-from strawberry_django_plus.test.client import TestClient, Response
+from strawberry_django_plus.test.client import Response, TestClient
+
 
 COUNT_BUDGET_CLASSIFICATION_CODE = 378
 COUNT_CHANGE_CODES = 10

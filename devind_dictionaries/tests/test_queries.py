@@ -1,7 +1,7 @@
 """Test queries."""
 
 from django.test import TestCase
-from strawberry_django_plus.test.client import TestClient, Response
+from strawberry_django_plus.test.client import Response, TestClient
 
 from .test_services import get_test_organizations
 from ..models import District, Organization, Region
