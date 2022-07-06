@@ -16,6 +16,7 @@ from devind_dictionaries.models import (
 
 from .filters import BudgetClassificationFilter
 from .filters import DistrictFilter, RegionFilter, OrganizationFilter
+from ..settings import dictionaries_settings
 
 
 class BaseTimeStamps:
@@ -45,12 +46,11 @@ class DepartmentType(BaseTimeStamps):
     name: auto
     code: auto
 
-    # user: 'UserType'
-    # users: list['UserType']
-    # minister: 'UserType'
-
-    # @gql.django.field#(only=['users'])
-    # def users(self, root: Department) -> 'list[UserType]':
+    # user: dictionaries_settings.USER_TYPE | None
+    # minister: dictionaries_settings.USER_TYPE | None
+    #
+    # @gql.django.field  # (only=['users'])
+    # def users(self, root: Department) -> 'list[dictionaries_settings.USER_TYPE]':
     #     """Resolve function for users in Departments."""
     #     return root.users.all()
 
@@ -81,7 +81,7 @@ class RegionType(BaseTimeStamps):
     name: auto
     common_id: auto
 
-    district: DistrictType
+    district: DistrictType | None
 
 
 @gql.django.type(Organization, filters=OrganizationFilter)
@@ -110,8 +110,11 @@ class OrganizationType(BaseTimeStamps, gql.relay.Node):
     parent: 'OrganizationType | None'
     region: RegionType | None
 
-    # user: 'UserType'
-    # users: list['UserType']
-
+    # user: dictionaries_settings.USER_TYPE
+    #
+    # @gql.django.field  # (only=['users'])
+    # def users(self, root: Organization) -> 'list[dictionaries_settings.USER_TYPE]':
+    #     """Resolve function for users in Departments."""
+    #     return root.users.all()
 
 
