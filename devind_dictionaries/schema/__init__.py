@@ -35,7 +35,9 @@ class Query:
     regions: list[RegionType] = gql.django.field()
 
     organization: OrganizationType = gql.django.field()
-    organizations: list[OrganizationType] = gql.django.field()
+    organizations: gql.relay.Connection[OrganizationType] = gql.django.connection(
+        description='Доступные организации'
+    )
 
 
 @gql.type
