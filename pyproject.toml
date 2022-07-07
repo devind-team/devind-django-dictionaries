@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "devind_dictionaries"
-version = "0.5.0"
+version = "1.0.0"
 description = "Common dictionaries for devind applications"
 authors = ["Victor <lyferov@yandex.ru>"]
 license = "MIT"
