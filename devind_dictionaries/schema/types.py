@@ -23,7 +23,7 @@ class BaseTimeStamps:
 class BudgetClassificationType(BaseTimeStamps, gql.relay.Node):
     """Type of Budget classification."""
 
-    id: gql.ID
+    id: gql.ID  # noqa
     code: auto
     name: auto
     active: auto
@@ -35,16 +35,17 @@ class BudgetClassificationType(BaseTimeStamps, gql.relay.Node):
 class DepartmentType(BaseTimeStamps):
     """Type of Departments."""
 
-    id: gql.ID
+    id: gql.ID  # noqa
     name: auto
     code: auto
-    # user: UserType | None
-    # minister: UserType | None
+
+    # user: UserType | None # noqa
+    # minister: UserType | None  # noqa
     #
     # @gql.django.field  # (only=['users'])
     # def users(self, root: Department) -> 'list[UserType]':
     #     """Resolve function for users in Departments."""
-    #     return root.users.all()
+    #     return root.users.all()    # noqa
 
     @gql.django.field
     def organizations(self, root: Department) -> 'list[OrganizationType]':
@@ -56,7 +57,7 @@ class DepartmentType(BaseTimeStamps):
 class DistrictType(BaseTimeStamps):
     """Type of District."""
 
-    id: gql.ID
+    id: gql.ID  # noqa
     name: auto
 
     @gql.django.field   # (only='region_set')
@@ -69,7 +70,7 @@ class DistrictType(BaseTimeStamps):
 class RegionType(BaseTimeStamps):
     """Type of Region."""
 
-    id: gql.ID
+    id: gql.ID  # noqa
     name: auto
     common_id: auto
     district: DistrictType | None
@@ -79,7 +80,7 @@ class RegionType(BaseTimeStamps):
 class OrganizationType(BaseTimeStamps, gql.relay.Node):
     """Type of Organization."""
 
-    id: gql.ID
+    id: gql.ID  # noqa
     name: auto
     present_name: auto
     inn: auto
@@ -95,9 +96,9 @@ class OrganizationType(BaseTimeStamps, gql.relay.Node):
     attributes: strawberry.scalars.JSON
     parent: 'OrganizationType | None'
     region: RegionType | None
-    # user: UserType
+    # user: UserType  # noqa
     #
-    # @gql.django.field  # (only=['users'])
-    # def users(self, root: Organization) -> 'list[UserType]':
-    #     """Resolve function for users in Departments."""
-    #     return root.users.all()
+    # @gql.django.field  # (only=['users']) # noqa
+    # def users(self, root: Organization) -> 'list[UserType]': # noqa
+    #     """Resolve function for users in Departments.""" # noqa
+    #     return root.users.all() # noqa

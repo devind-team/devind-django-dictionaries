@@ -11,7 +11,7 @@ from strawberry_django_plus import gql
 class BudgetClassificationFilter:
     """Filter of Budget classification."""
 
-    id: gql.ID
+    id: gql.ID    # noqa
     code: auto
 
 
