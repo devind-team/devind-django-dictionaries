@@ -2,28 +2,6 @@
 
 <!--next-version-placeholder-->
 
-## v1.0.0 (2022-07-07)
-### Feature
-* Запущены тесты ([`ef4ee0e`](https://github.com/devind-team/devind-django-dictionaries/commit/ef4ee0e6077ef1c94d5ac6559430816b45c3a25b))
-* Изменение схемы ([`30cb1a5`](https://github.com/devind-team/devind-django-dictionaries/commit/30cb1a51d0694a4f15e20e87f54a65e57509d899))
-* Переписаны мутация ([`ef29c39`](https://github.com/devind-team/devind-django-dictionaries/commit/ef29c394fb2a400ffd0d428ca2c564e9ecb59fa1))
-* Переписаны пермишены ([`8c3a7a7`](https://github.com/devind-team/devind-django-dictionaries/commit/8c3a7a78641b5d4b83c0d650edc3a56325c18397))
-* Переписаны типы в соотвествии со старыми типами ([`6b979bf`](https://github.com/devind-team/devind-django-dictionaries/commit/6b979bfff516d7199ad27116000f4b72efb07fa2))
-* Переписывание схемы ([`d9a5e2f`](https://github.com/devind-team/devind-django-dictionaries/commit/d9a5e2fa4a4a97a6c610d6bac19df5463750409a))
-* Переписаны типы для strawberry_django_plus ([`f8e77f4`](https://github.com/devind-team/devind-django-dictionaries/commit/f8e77f4796d7639e32b7780ad288dd87575eb969))
-* Обновлены зависимости ([`0f3d28c`](https://github.com/devind-team/devind-django-dictionaries/commit/0f3d28cef3f13b1fbf578ec468a9e507762fff0d))
-* Сидер перенесен в фикстуры для BudgetClassification ([`e1a4ca9`](https://github.com/devind-team/devind-django-dictionaries/commit/e1a4ca9939810de1b116cbebb0320d242bb4dc6b))
-* Переход на strawberry ([`5ed9334`](https://github.com/devind-team/devind-django-dictionaries/commit/5ed9334de6905e2386eb986f701364e781339e2f))
-
-### Fix
-* Исправлена версия python ([`a9ffed8`](https://github.com/devind-team/devind-django-dictionaries/commit/a9ffed8cbffc03f005f6d7a865ed3f827d242de3))
-
-### Breaking
-* graphene_django не работает  ([`5808256`](https://github.com/devind-team/devind-django-dictionaries/commit/58082563816df17f075e7b6ad4b46d7236bb374c))
-
-### Performance
-* Переход на strawberry ([`5808256`](https://github.com/devind-team/devind-django-dictionaries/commit/58082563816df17f075e7b6ad4b46d7236bb374c))
-
 ## v0.5.0 (2022-06-28)
 ### Feature
 * Обновление версии семантик релиза ([`93fb3cc`](https://github.com/devind-team/devind-django-dictionaries/commit/93fb3cc24548ea21c3915c88b8e0c6668e663700))
