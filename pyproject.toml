@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "devind-django-dictionaries"
-version = "1.0.0"
+version = "0.5.0"
 description = "Common dictionaries for devind applications"
 authors = ["Victor <lyferov@yandex.ru>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 Django = "^4.0.5"
 requests = "^2.28.0"
 beautifulsoup4 = "^4.11.1"
