@@ -1,155 +1,104 @@
-"""Graphql Types for dictionaries."""
+"""Describe dictionaries types."""
 
-import graphene
-from devind_helpers.optimized import OptimizedDjangoObjectType
-from devind_helpers.schema.connections import CountableConnection
-from django.db.models import QuerySet
-from graphene_django import DjangoObjectType
-from graphene_django_optimizer import resolver_hints
-from graphql import ResolveInfo
+from __future__ import annotations
 
-from ..models import BudgetClassification, Department, District, Organization, Region
-from ..settings import dictionaries_settings
+import datetime
 
+import strawberry
+from devind_dictionaries.models import BudgetClassification, Department, District, Organization, Region
+from strawberry import auto
+from strawberry_django_plus import gql
 
-class BudgetClassificationType(DjangoObjectType):
-    """Graphene object type for budget classification codes."""
-
-    class Meta:
-        """Metaclass with description parameters."""
-
-        model = BudgetClassification
-        interfaces = (graphene.relay.Node,)
-        fields = (
-            'id',
-            'code',
-            'name',
-            'active',
-            'start',
-            'end',
-            'created_at',
-            'updated_at',
-        )
-        filter_fields = {
-            'id': ('exact', 'in',),
-            'code': ('exact', 'icontains',)
-        }
-        connection_class = CountableConnection
+from .filters import BudgetClassificationFilter, DistrictFilter, OrganizationFilter, RegionFilter
 
 
-class DepartmentType(DjangoObjectType):
-    """Graphene object type for Department."""
+class BaseTimeStamps:
+    """Base of timeStamps class."""
 
-    user = graphene.Field(dictionaries_settings.USER_TYPE, required=True, description='Director of department.')
-    minister = graphene.Field(dictionaries_settings.USER_TYPE, required=True, description='Responsible Minister.')
-    users = graphene.List(dictionaries_settings.USER_TYPE, description='Department staff.')
-    organizations = graphene.List(lambda: OrganizationType, description='Organizations.')
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
 
-    class Meta:
-        """Metaclass with description parameters."""
 
-        model = Department
-        fields = (
-            'id',
-            'name',
-            'code',
-            'created_at',
-            'updated_at',
-            'user',
-            'minister',
-            'users',
-            'organizations',
-        )
+@gql.django.type(BudgetClassification, filters=BudgetClassificationFilter)
+class BudgetClassificationType(BaseTimeStamps, gql.relay.Node):
+    """Type of Budget classification."""
 
-    @staticmethod
-    @resolver_hints(model_field='users')
-    def resolve_users(department: Department, info: ResolveInfo, *args, **kwargs) -> QuerySet:
-        """Resolve function for users in Departments."""
-        return department.users.all()
+    id: gql.ID  # noqa
+    code: auto
+    name: auto
+    active: auto
+    start: auto
+    end: auto
 
-    @staticmethod
-    def resolve_organizations(department: Department, info: ResolveInfo, *args, **kwargs) -> QuerySet:
+
+@gql.django.type(Department)
+class DepartmentType(BaseTimeStamps):
+    """Type of Departments."""
+
+    id: gql.ID  # noqa
+    name: auto
+    code: auto
+
+    # user: UserType | None # noqa
+    # minister: UserType | None  # noqa
+    #
+    # @gql.django.field  # (only=['users'])
+    # def users(self, root: Department) -> 'list[UserType]':
+    #     """Resolve function for users in Departments."""
+    #     return root.users.all()    # noqa
+
+    @gql.django.field
+    def organizations(self, root: Department) -> 'list[OrganizationType]':
         """Resolve function for organizations in Departments."""
-        return department.organizations.all()
+        return root.organizations.all()
 
 
-class DistrictType(DjangoObjectType):
-    """Graphene object type for District."""
+@gql.django.type(District, filters=DistrictFilter)
+class DistrictType(BaseTimeStamps):
+    """Type of District."""
 
-    regions = graphene.List(lambda: RegionType, description='List of regions.')
+    id: gql.ID  # noqa
+    name: auto
 
-    class Meta:
-        """Metaclass with description parameters."""
-
-        model = District
-        fields = ('id', 'name', 'created_at', 'updated_at', 'regions',)
-        filter_fields = {
-            'name': ('contains',),
-        }
-
-    @staticmethod
-    @resolver_hints(model_field='region_set')
-    def resolve_regions(district: District, info: ResolveInfo, *args, **kwargs) -> QuerySet[Region]:
+    @gql.django.field   # (only='region_set')
+    def regions(self, root: District) -> 'list[RegionType]':
         """Resolve function for Regions in District."""
-        return district.region_set.all()
+        return root.region_set.all()
 
 
-class RegionType(DjangoObjectType):
-    """Graphene object type for Regions."""
+@gql.django.type(Region, filters=RegionFilter)
+class RegionType(BaseTimeStamps):
+    """Type of Region."""
 
-    class Meta:
-        """Metaclass with description parameters."""
-
-        model = Region
-        fields = ('id', 'name', 'common_id', 'created_at', 'updated_at', 'district',)
-        filter_fields = {
-            'name': ('contains',),
-            'common_id': ('exact',)
-        }
+    id: gql.ID  # noqa
+    name: auto
+    common_id: auto
+    district: DistrictType | None
 
 
-class OrganizationType(OptimizedDjangoObjectType):
-    """Optimized type for Organizations."""
+@gql.django.type(Organization, filters=OrganizationFilter)
+class OrganizationType(BaseTimeStamps, gql.relay.Node):
+    """Type of Organization."""
 
-    departments = graphene.List(DepartmentType, description='Departments.')
-
-    class Meta:
-        """Metaclass with description parameters."""
-
-        model = Organization
-        interfaces = (graphene.relay.Node,)
-        fields = (
-            'name', 'present_name',
-            'inn', 'kpp', 'kind',
-            'rubpnubp', 'kodbuhg', 'okpo',
-            'phone', 'site', 'mail', 'address',
-            'attributes',
-            'created_at', 'updated_at',
-            'parent',
-            'region',
-            'departments'
-        )
-        filter_fields = {
-            'id': ('exact', 'in',),
-            'parent': ('exact', 'isnull'),
-            'name': ('exact', 'icontains',),
-            'inn': ('exact', 'icontains',),
-            'kpp': ('exact', 'icontains',),
-            'kind': ('exact', 'icontains',),
-            'rubpnubp': ('exact', 'icontains',),
-            'kodbuhg': ('exact', 'icontains',),
-            'okpo': ('exact', 'icontains',),
-            'phone': ('exact', 'icontains',),
-            'site': ('exact', 'icontains',),
-            'mail': ('exact', 'icontains',),
-            'address': ('exact', 'icontains',),
-            'region': ('exact', 'in',),
-            'department': ('exact', 'in',)
-        }
-        connection_class = CountableConnection
-
-    @staticmethod
-    @resolver_hints(model_field='department_set')
-    def resolve_departments(organization: Organization, info: ResolveInfo, *args, **kwargs) -> QuerySet:
-        """Resolve function for get departments of organizations."""
-        return organization.department_set.all()
+    id: gql.ID  # noqa
+    name: auto
+    present_name: auto
+    inn: auto
+    kpp: auto
+    kind: auto
+    rubpnubp: auto
+    kodbuhg: auto
+    okpo: auto
+    phone: auto
+    site: auto
+    mail: auto
+    address: auto
+    attributes: strawberry.scalars.JSON
+    parent: 'OrganizationType | None'
+    region: RegionType | None
+    # user: UserType  # noqa
+    #
+    # @gql.django.field  # (only=['users']) # noqa
+    # def users(self, root: Organization) -> 'list[UserType]': # noqa
+    #     """Resolve function for users in Departments.""" # noqa
+    #     return root.users.all() # noqa

@@ -1,10 +1,7 @@
 """Test queries."""
 
-from typing import Any
-
 from django.test import TestCase
-from example.schema import schema
-from graphene.test import Client
+from strawberry_django_plus.test.client import Response, TestClient
 
 from .test_services import get_test_organizations
 from ..models import District, Organization, Region
@@ -22,32 +19,28 @@ class TestQueries(TestCase):
         update_entity(Region, regions)
         update_entity(Organization, organizations)
 
-        self.client: Client = Client(schema)
+        self.client = TestClient('/graphql/')
 
     def test_district(self) -> None:
         """Testing district query."""
-        def query(district_id: int) -> Any:
-            """Helpers for execute query."""
-            return self.client.execute(
-                """
-                query ($districtId: Int!) {
-                  district (districtId: $districtId) {
-                    id
-                    name
-                    __typename
-                  }
-                }
-                """,
-                variables={'districtId': district_id}
-            )
-        find_district = query(1)
-        self.assertIsNone(find_district.get('errors'))
-        district = find_district['data']['district']
+        query: str = """
+          query ($pk: ID!) {
+            district (pk: $pk) {
+              id
+              name
+              __typename
+            }
+          }
+        """
+        response: Response = self.client.query(query, {'pk': 1})
+        self.assertIsNone(response.errors)
+        district: dict[str, str] | None = response.data.get('district')
+        self.assertIsNotNone(district)
         self.assertEqual(district['__typename'], 'DistrictType')
 
     def test_districts(self) -> None:
         """Testing districts query."""
-        districts_result = self.client.execute(
+        response: Response = self.client.query(
             """
             query {
               districts {
@@ -58,8 +51,9 @@ class TestQueries(TestCase):
             }
             """
         )
-        self.assertIsNone(districts_result.get('errors'))
-        districts = districts_result['data']['districts']
+        self.assertIsNone(response.errors)
+        districts: list[dict[str, str]] | None = response.data.get('districts')
+        self.assertIsNotNone(districts)
         self.assertEqual(len(districts), District.objects.count())
 
     def tearDown(self) -> None:

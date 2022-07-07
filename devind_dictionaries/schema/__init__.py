@@ -1,77 +1,55 @@
-"""Description schema for dictionaries.
+"""Description for dictionaries schema."""
+from typing import Iterable
 
-Last change: Luferov
-Time: 2022-03-2
-"""
+from strawberry_django_plus import gql
+from strawberry_django_plus.permissions import HasPerm
 
-from typing import Any, Iterable
-
-import graphene
-from devind_helpers.orm_utils import get_object_or_404
-from graphene_django import DjangoListField
-from graphene_django_filter import AdvancedDjangoFilterConnectionField
-from graphql import ResolveInfo
-
-from .mutations import UpdateOrganizations
+from .filters import BudgetClassificationFilter
 from .types import BudgetClassificationType, DepartmentType, DistrictType, OrganizationType, RegionType
-from ..models import BudgetClassification, Department, District, Organization, Region
+from ..services import get_active_budget_classification
+from ..tasks import update_organizations
 
 
-class Query(graphene.ObjectType):
+@gql.type
+class Query:
     """List of queries for dictionaries."""
 
-    budget_classifications = AdvancedDjangoFilterConnectionField(BudgetClassificationType)
-    active_budget_classifications = AdvancedDjangoFilterConnectionField(
-        BudgetClassificationType,
-        filter_input_type_prefix='ActiveBudgetClassification'
+    budget_classifications: gql.relay.Connection[BudgetClassificationType] = gql.django.connection(
+        description='Доступные коды бюджетной классификации'
     )
 
-    department = graphene.Field(DepartmentType, department_id=graphene.Int(required=True, description='Department ID'))
-    departments = DjangoListField(DepartmentType)
-
-    district = graphene.Field(DistrictType, district_id=graphene.Int(required=True, description='District ID'))
-    districts = DjangoListField(DistrictType)
-
-    region = graphene.Field(RegionType, region_id=graphene.Int(required=True, description='Region ID'))
-    regions = DjangoListField(RegionType)
-
-    organization = graphene.Field(
-        OrganizationType,
-        organization_id=graphene.Int(required=True, description='Organization ID')
+    @gql.django.connection(
+        description='Активные коды бюджетной классификации'
     )
-    organizations = AdvancedDjangoFilterConnectionField(OrganizationType)
+    def active_budget_classifications(self) -> Iterable[BudgetClassificationType]:
+        """Get active budget classifications."""
+        return get_active_budget_classification()
 
-    @staticmethod
-    def resolve_active_budget_classifications(
-            root: Any,
-            info: ResolveInfo,
-            *args,
-            **kwargs
-    ) -> Iterable[BudgetClassification]:
-        """Resolve active budget classification for now."""
-        return BudgetClassification.objects.active_now()
+    department: DepartmentType = gql.django.field()
+    departments: list[DepartmentType] = gql.django.field()
 
-    @staticmethod
-    def resolve_department(root: Any, info: ResolveInfo, department_id: int) -> Department:
-        """Resolve function for get department entity."""
+    district: DistrictType = gql.django.field()
+    districts: list[DistrictType] = gql.django.field()
 
-    @staticmethod
-    def resolve_district(root: Any, info: ResolveInfo, district_id: int) -> District:
-        """Resolve function for get district entity."""
-        return get_object_or_404(District, pk=district_id)
+    region: RegionType = gql.django.field()
+    regions: list[RegionType] = gql.django.field()
 
-    @staticmethod
-    def resolve_region(root: Any, info: ResolveInfo, region_id: int) -> Region:
-        """Resolve function for get region entity."""
-        return get_object_or_404(Region, pk=region_id)
-
-    @staticmethod
-    def resolve_organization(root: Any, info: ResolveInfo, organization_id: int) -> Organization:
-        """Resolve function for get organizations entity."""
-        return get_object_or_404(Organization, pk=organization_id)
+    organization: OrganizationType = gql.django.field()
+    organizations: gql.relay.Connection[OrganizationType] = gql.django.connection(
+        description='Доступные организации'
+    )
 
 
-class Mutation(graphene.ObjectType):
+@gql.type
+class Mutation:
     """List of mutations for dictionaries."""
 
-    update_organizations = UpdateOrganizations.Field(description='Update district, regions and organizations.')
+    @gql.mutation(directives=[
+        HasPerm('devind_dictionaries.change_district'),
+        HasPerm('devind_dictionaries.change_region'),
+        HasPerm('devind_dictionaries.change_organization'),
+    ])
+    def update_organization(self) -> bool:
+        """Start celery task."""
+        update_organizations.delay()
+        return True

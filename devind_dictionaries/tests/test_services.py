@@ -18,7 +18,7 @@ from ..settings import dictionaries_settings
 def get_test_organizations() -> str:
     """Get testing organizations."""
     data_file: str = join(settings.BASE_DIR, 'devind_dictionaries', 'tests', 'data', 'organizations.xml')
-    with open(data_file) as file:
+    with open(data_file, encoding='utf-8') as file:
         content: str = file.read()
     return content
 
