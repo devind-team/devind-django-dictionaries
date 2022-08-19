@@ -14,7 +14,7 @@ celery = "^5.2.7"
 devind-helpers = "^1.0.0"
 python-dotenv = "^0.20.0"
 strawberry-graphql-django = "^0.3.1"
-strawberry-graphql = "^0.116.4"
+strawberry-graphql = ">=0.116.4,<0.127.0"
 strawberry-django-plus = "^1.17.0"
 
 [tool.poetry.dev-dependencies]
