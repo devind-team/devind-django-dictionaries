@@ -103,7 +103,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Semantic Release
-        uses: relekang/python-semantic-release@v7.29.4
+        uses: relekang/python-semantic-release@latest
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
