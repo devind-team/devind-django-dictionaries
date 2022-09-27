@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.0 (2022-09-27)
+### Feature
+* Add children to organization type ([`be0bff4`](https://github.com/devind-team/devind-django-dictionaries/commit/be0bff46e3715ab7309adaae0e85f75da20180e4))
+
 ## v0.5.0 (2022-06-28)
 ### Feature
 * Обновление версии семантик релиза ([`93fb3cc`](https://github.com/devind-team/devind-django-dictionaries/commit/93fb3cc24548ea21c3915c88b8e0c6668e663700))
