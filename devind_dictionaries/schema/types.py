@@ -44,6 +44,7 @@ class DepartmentType(DjangoObjectType):
     minister = graphene.Field(dictionaries_settings.USER_TYPE, required=True, description='Responsible Minister.')
     users = graphene.List(dictionaries_settings.USER_TYPE, description='Department staff.')
     organizations = graphene.List(lambda: OrganizationType, description='Organizations.')
+    children = graphene.List(lambda: DepartmentType, default_value=[], description='Children departments.')
 
     class Meta:
         """Metaclass with description parameters."""
