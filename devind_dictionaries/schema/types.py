@@ -112,6 +112,7 @@ class OrganizationType(OptimizedDjangoObjectType):
     """Optimized type for Organizations."""
 
     departments = graphene.List(DepartmentType, description='Departments.')
+    children = graphene.List(lambda: OrganizationType, description='Children of organization')
 
     class Meta:
         """Metaclass with description parameters."""
@@ -126,8 +127,9 @@ class OrganizationType(OptimizedDjangoObjectType):
             'attributes',
             'created_at', 'updated_at',
             'parent',
+            'children',
             'region',
-            'departments'
+            'departments',
         )
         filter_fields = {
             'id': ('exact', 'in',),
@@ -153,3 +155,9 @@ class OrganizationType(OptimizedDjangoObjectType):
     def resolve_departments(organization: Organization, info: ResolveInfo, *args, **kwargs) -> QuerySet:
         """Resolve function for get departments of organizations."""
         return organization.department_set.all()
+
+    @staticmethod
+    @resolver_hints(model_field='organization_set')
+    def resolve_children(organization: Organization, info: ResolveInfo, *args, **kwargs) -> QuerySet:
+        """Resolve functions for get children of organization."""
+        return organization.organization_set.all()
