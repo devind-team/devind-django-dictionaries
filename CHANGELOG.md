@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.0 (2022-09-27)
+### Feature
+* Add children to departments ([`e5f6da6`](https://github.com/devind-team/devind-django-dictionaries/commit/e5f6da607b203c5e70c62348a45102414789542c))
+* Add children to departments ([`be99ff2`](https://github.com/devind-team/devind-django-dictionaries/commit/be99ff2da1284796839168543a216d239f3929ab))
+* Update version of semantic release ([`1da0107`](https://github.com/devind-team/devind-django-dictionaries/commit/1da0107697e2a54bb221d3e0d720481e662dfffb))
+
 ## v0.5.0 (2022-06-28)
 ### Feature
 * Обновление версии семантик релиза ([`93fb3cc`](https://github.com/devind-team/devind-django-dictionaries/commit/93fb3cc24548ea21c3915c88b8e0c6668e663700))
