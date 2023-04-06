@@ -9,11 +9,18 @@ from typing import Any, Iterable
 import graphene
 from devind_helpers.orm_utils import get_object_or_404
 from graphene_django import DjangoListField
+from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django_filter import AdvancedDjangoFilterConnectionField
 from graphql import ResolveInfo
 
 from .mutations import UpdateOrganizations
-from .types import BudgetClassificationType, DepartmentType, DistrictType, OrganizationType, RegionType
+from .types import (
+    BudgetClassificationType,
+    DepartmentType,
+    DistrictType,
+    OrganizationType,
+    RegionType,
+)
 from ..models import BudgetClassification, Department, District, Organization, Region
 
 
@@ -39,14 +46,14 @@ class Query(graphene.ObjectType):
         OrganizationType,
         organization_id=graphene.Int(required=True, description='Organization ID')
     )
-    organizations = AdvancedDjangoFilterConnectionField(OrganizationType)
+    organizations = DjangoFilterConnectionField(OrganizationType)
 
     @staticmethod
     def resolve_active_budget_classifications(
-            root: Any,
-            info: ResolveInfo,
-            *args,
-            **kwargs
+        root: Any,
+        info: ResolveInfo,
+        *args,
+        **kwargs
     ) -> Iterable[BudgetClassification]:
         """Resolve active budget classification for now."""
         return BudgetClassification.objects.active_now()
