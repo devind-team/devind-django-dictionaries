@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.0 (2023-04-06)
+### Feature
+* Delete organization parent_id constraint ([`078db40`](https://github.com/devind-team/devind-django-dictionaries/commit/078db40ee66812e11fb1b5c2f4ce81c6828abbc4))
+
+### Fix
+* Fix bugs after deleting constraint ([`caf3816`](https://github.com/devind-team/devind-django-dictionaries/commit/caf3816ca595d67b5f90e5ca53f9097981b6dd5f))
+
 ## v0.7.0 (2022-09-27)
 ### Feature
 * Add children to departments ([`e5f6da6`](https://github.com/devind-team/devind-django-dictionaries/commit/e5f6da607b203c5e70c62348a45102414789542c))
