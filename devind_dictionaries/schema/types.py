@@ -4,6 +4,8 @@ import graphene
 from devind_helpers.optimized import OptimizedDjangoObjectType
 from devind_helpers.schema.connections import CountableConnection
 from django.db.models import QuerySet
+from django_filters.filters import CharFilter
+from django_filters.filterset import FilterSet
 from graphene_django import DjangoObjectType
 from graphene_django_optimizer import resolver_hints
 from graphql import ResolveInfo
@@ -109,6 +111,32 @@ class RegionType(DjangoObjectType):
         }
 
 
+class OrganizationFilter(FilterSet):
+    """Organization filter."""
+
+    class Meta:
+        model = Organization
+        fields = {
+            'id': ('exact', 'in',),
+            'parent': ('exact', 'isnull'),
+            'name': ('exact', 'icontains',),
+            'inn': ('exact', 'icontains',),
+            'kpp': ('exact', 'icontains',),
+            'kind': ('exact', 'icontains',),
+            'rubpnubp': ('exact', 'icontains',),
+            'kodbuhg': ('exact', 'icontains',),
+            'okpo': ('exact', 'icontains',),
+            'phone': ('exact', 'icontains',),
+            'site': ('exact', 'icontains',),
+            'mail': ('exact', 'icontains',),
+            'address': ('exact', 'icontains',),
+            'region': ('exact', 'in',),
+            'department': ('exact', 'in',)
+        }
+
+    attributes = CharFilter(field_name='attributes', lookup_expr='level__exact')
+
+
 class OrganizationType(OptimizedDjangoObjectType):
     """Optimized type for Organizations."""
 
@@ -132,23 +160,7 @@ class OrganizationType(OptimizedDjangoObjectType):
             'region',
             'departments',
         )
-        filter_fields = {
-            'id': ('exact', 'in',),
-            'parent': ('exact', 'isnull'),
-            'name': ('exact', 'icontains',),
-            'inn': ('exact', 'icontains',),
-            'kpp': ('exact', 'icontains',),
-            'kind': ('exact', 'icontains',),
-            'rubpnubp': ('exact', 'icontains',),
-            'kodbuhg': ('exact', 'icontains',),
-            'okpo': ('exact', 'icontains',),
-            'phone': ('exact', 'icontains',),
-            'site': ('exact', 'icontains',),
-            'mail': ('exact', 'icontains',),
-            'address': ('exact', 'icontains',),
-            'region': ('exact', 'in',),
-            'department': ('exact', 'in',)
-        }
+        filterset_class = OrganizationFilter
         connection_class = CountableConnection
 
     @staticmethod
