@@ -30,7 +30,7 @@ class Organization(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, help_text='Created date')
     updated_at = models.DateTimeField(auto_now=True, help_text='Updated date')
 
-    parent = models.ForeignKey('self', null=True, default=None, on_delete=models.SET_NULL, help_text='Parent')
+    parent_id = models.PositiveIntegerField(null=True, default=None, help_text='Parent identifier')
     region = models.ForeignKey(Region, null=True, default=None, on_delete=models.SET_NULL, help_text='Region')
 
     user = models.ForeignKey(

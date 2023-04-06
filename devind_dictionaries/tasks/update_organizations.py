@@ -22,4 +22,4 @@ def update_organizations() -> str:
     update_entity(District, districts)
     update_entity(Region, regions)
     update_entity(Organization, organizations)
-    return f'Districts: {len(districts)}, Regions: {len(regions)}, Organizatinos: {len(organizations)}'
+    return f'Districts: {len(districts)}, Regions: {len(regions)}, Organizations: {len(organizations)}'

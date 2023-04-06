@@ -127,14 +127,14 @@ class OrganizationType(OptimizedDjangoObjectType):
             'phone', 'site', 'mail', 'address',
             'attributes',
             'created_at', 'updated_at',
-            'parent',
+            'parent_id',
             'children',
             'region',
             'departments',
         )
         filter_fields = {
             'id': ('exact', 'in',),
-            'parent': ('exact', 'isnull'),
+            'parent_id': ('exact', 'isnull'),
             'name': ('exact', 'icontains',),
             'inn': ('exact', 'icontains',),
             'kpp': ('exact', 'icontains',),
@@ -158,7 +158,6 @@ class OrganizationType(OptimizedDjangoObjectType):
         return organization.department_set.all()
 
     @staticmethod
-    @resolver_hints(model_field='organization_set')
     def resolve_children(organization: Organization, info: ResolveInfo, *args, **kwargs) -> QuerySet:
         """Resolve functions for get children of organization."""
-        return organization.organization_set.all()
+        return Organization.objects.filter(parent_id=organization.id)
