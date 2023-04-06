@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.1 (2023-04-06)
+### Fix
+* Delete constraint instead of ForeignKey ([`3f0a9e2`](https://github.com/devind-team/devind-django-dictionaries/commit/3f0a9e2c02add6d0a82c164720ae36f0b6e7b772))
+
 ## v0.8.0 (2023-04-06)
 ### Feature
 * Delete organization parent_id constraint ([`078db40`](https://github.com/devind-team/devind-django-dictionaries/commit/078db40ee66812e11fb1b5c2f4ce81c6828abbc4))
