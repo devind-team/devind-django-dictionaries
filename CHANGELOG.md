@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2023-04-06)
+### Feature
+* Добавлена фильтрация по полю attributes ([`31843bf`](https://github.com/devind-team/devind-django-dictionaries/commit/31843bfbca11bd86bb25fc187997482e73f38302))
+
 ## v0.8.1 (2023-04-06)
 ### Fix
 * Delete constraint instead of ForeignKey ([`3f0a9e2`](https://github.com/devind-team/devind-django-dictionaries/commit/3f0a9e2c02add6d0a82c164720ae36f0b6e7b772))
