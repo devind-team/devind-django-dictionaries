@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.0 (2023-05-10)
+### Feature
+* Добавлена фильтрация через "или" для организаций ([`d37a58a`](https://github.com/devind-team/devind-django-dictionaries/commit/d37a58a2c7aecce7fffaf2b86f537c9527e7b360))
+
 ## v0.9.0 (2023-04-06)
 ### Feature
 * Добавлена фильтрация по полю attributes ([`31843bf`](https://github.com/devind-team/devind-django-dictionaries/commit/31843bfbca11bd86bb25fc187997482e73f38302))
