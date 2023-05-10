@@ -1,10 +1,10 @@
 """Filters for dictionaries."""
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django_filters.filters import CharFilter
 from django_filters.filterset import FilterSet
 
-from devind_dictionaries.models import Organization
+from .models import Organization
 
 
 class OrganizationFilter(FilterSet):
@@ -34,7 +34,8 @@ class OrganizationFilter(FilterSet):
         }
 
     @property
-    def qs(self):
+    def qs(self) -> QuerySet:
+        """Filter with `or` for `icontains` lookup and with `and` for the rest."""
         queryset = self.queryset
         search_q = Q()
         for field, value in self.data.items():
