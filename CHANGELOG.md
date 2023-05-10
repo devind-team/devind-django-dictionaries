@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.1 (2023-05-10)
+### Fix
+* Исправлена фильтрация организаций по attributes level ([`f838b2e`](https://github.com/devind-team/devind-django-dictionaries/commit/f838b2ebed0625ee9890645f2c625652ef92ecc9))
+
 ## v0.10.0 (2023-05-10)
 ### Feature
 * Добавлена фильтрация через "или" для организаций ([`d37a58a`](https://github.com/devind-team/devind-django-dictionaries/commit/d37a58a2c7aecce7fffaf2b86f537c9527e7b360))
