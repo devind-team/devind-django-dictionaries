@@ -11,7 +11,7 @@ class OrganizationFilter(FilterSet):
     """Organization filter."""
 
     id__icontains = CharFilter(field_name='id', lookup_expr='icontains')
-    attributes = CharFilter(field_name='attributes', lookup_expr='level__exact')
+    attributes__level = CharFilter(field_name='attributes__level', lookup_expr='exact')
 
     class Meta:
         model = Organization
